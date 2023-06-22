@@ -1,0 +1,13 @@
+<% layout("./layouts/layout.eta") %>
+
+<% if (it.errorMessage) { %> 
+  <p><%= it.errorMessage %></p> 
+<% } %>
+
+<h1>Login form</h1>
+
+<form method="POST" action="/auth/login">
+  Email:<input type="email" name="email" <% if (it.email) { %> value="<%= it.email %>" <% } %> /><br/>
+  Password:<input type="password" name="password" /><br/>
+  <input type="submit" value="Log in"/>
+</form>

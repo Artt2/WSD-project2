@@ -1,9 +1,23 @@
 <% layout("./layouts/layout.eta") %>
 
+<% if (it.userExistsError) { %> 
+  <p><%= it.userExistsError %></p> 
+<% } %>
+
+<% if (it.validationErrors) { %>
+<ul>
+  <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+    <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+      <li><%= err %></li>
+    <% }) %>
+  <% }) %>
+</ul>
+<% } %>
+
 <h1>Registration form</h1>
 
 <form method="POST" action="/auth/register">
-  Email:<input type="email" name="email" /><br/>
-  Password:<input type="text" name="password" /><br/>
+  Email:<input type="email" name="email" <% if (it.email) { %> value="<%= it.email %>" <% } %> /><br/>
+  Password:<input type="password" name="password" /><br/>
   <input type="submit" value="Register"/>
 </form>

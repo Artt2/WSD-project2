@@ -1,0 +1,38 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>Topics</h1>
+
+<% if (it.user.admin) { %>
+
+  <% if (it.validationErrors) { %>
+    <ul>
+      <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+        <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+          <li><%= err %></li>
+        <% }) %>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form method="POST" action="/topics">
+    Name<input type="text" name="name" <% if (it.name) { %> value="<%= it.name %>" <% } %> />
+    <input type="submit" value="Add topic" />
+  </form>
+<% } %>
+
+<h2>All topics</h2>
+
+<% if (it.topics.length !== 0) { %>
+  <ul>
+    <% it.topics.forEach((topic) => { %>
+      <li>
+        <a href="/topics/<%= topic.id %>"><%= topic.name %></a>
+        <% if (it.user.admin) { %>
+          <form method="POST" action="/topics/<%= topic.id %>/delete">
+            <input type="submit" value="Delete" />
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
