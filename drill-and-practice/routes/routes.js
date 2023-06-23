@@ -6,6 +6,8 @@ import * as topicController from "./controllers/topicController.js";
 import * as questionsController from "./controllers/questionscontroller.js";
 import * as questionController from "./controllers/questionController.js";
 
+import * as questionApi from "./apis/questionApi.js";
+
 const router = new Router();
 
 router.get("/", mainController.showMain);
@@ -25,5 +27,11 @@ router.post("/topics/:id/questions", questionsController.addQuestion);
 
 router.get("/topics/:id/questions/:qId", questionController.showQuestionPage);
 router.post("/topics/:id/questions/:qId/options", questionController.addAnswerOption);
+router.post("/topics/:id/questions/:qId/options/:oId/delete", questionController.deleteAnswerOption);
+
+router.post("/topics/:id/questions/:qId/delete", questionController.deleteQuestion);
+
+router.get("/api/questions/random", questionApi.randomQuestion);
+router.post("/api/questions/answer", questionApi.respondWithAnswer);
 
 export { router };

@@ -12,6 +12,10 @@
   </ul>
 <% } %>
 
+<% if (it.rightAnswerError) { %>
+  <p><%= it.rightAnswerError %></p>
+<% } %>
+
 <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options">
   Option text: <input type="text" name="option_text" <% if (it.option_text) { %> value="<%= it.option_text %>" <% } %> />
   Correct: <input type="checkbox" name="is_correct"/>
@@ -25,7 +29,15 @@
     <% it.answerOptions.forEach((option) => { %>
       <li>
         <p>Option text:<%= option.option_text %> Correct: <%= option.is_correct %></p>
+        <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options/<%= option.id %>/delete">
+          <input type="submit" value="Delete" />
+        </form>
       </li>
     <% }) %>
   </ul>
+<% } else { %>
+  <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/delete">
+    <input type="submit" value="Delete question"/>
+  </form>
+
 <% } %>

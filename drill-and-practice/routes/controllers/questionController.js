@@ -17,7 +17,7 @@ const addAnswerOption = async ({ request, params, response, render, user}) => {
   const topicFromDatabase = await topicService.findTopicById(Number(topicID));
   const questionFromDatabase = await questionService.findQuestionById(Number(questionID));
 
-  //TODO: checkbox should be populated
+  //TODO: checkbox should be populated?
 
   const data = {
     topic: topicFromDatabase[0],
@@ -30,7 +30,14 @@ const addAnswerOption = async ({ request, params, response, render, user}) => {
 
   const correct = bodyParams.get("is_correct") === "on" ? true : false;
 
-  if (!passes) {
+  //check if there already exists a right answer 
+
+  const rightAnswerExists = await answerOptionService.rightAnswerExists(questionID);
+
+  if (correct && rightAnswerExists) { //if user tries to add correct answer, but it exists already
+    data.rightAnswerError = "Correct answer exists already";
+    render("question.eta", data);
+  } else if (!passes) {
     data.validationErrors = errors;
     render("question.eta", data);
   } else {
@@ -53,5 +60,33 @@ const showQuestionPage = async ({ params, render}) => {
   }
   render("question.eta", data);
 }
+/*
+  Any authenticated user can remove answer options.
+  calls answerOptionService.js
+*/
+const deleteAnswerOption = async ({ params, response, user }) => {
+  const topicID = params.id;
+  const questionID = params.qId;
+  const optionID = params.oId;
 
-export {addAnswerOption, showQuestionPage};
+  if (user) {
+    await answerOptionService.deleteAnswerOption(optionID);
+  }
+  response.redirect(`/topics/${topicID}/questions/${questionID}`);
+}
+
+/* 
+  Any authenticated user can remove questions.
+  Calls questionService.js
+*/
+const deleteQuestion = async ({ params, response, user }) => {
+  const topicID = params.id;
+  const questionID = params.qId;
+
+  if (user) {
+    questionService.deleteQuestion(questionID);
+  }
+  response.redirect(`/topics/${topicID}`);
+}
+
+export {addAnswerOption, showQuestionPage, deleteAnswerOption, deleteQuestion};
