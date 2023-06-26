@@ -22,6 +22,9 @@ const rightAnswerExists = async (questionID) => {
 }
 
 const findAnswerOptionsByQuestionId = async (questionID) => {
+  if (questionID === undefined) {
+    return {};
+  }
   return await sql`SELECT * FROM question_answer_options WHERE question_id = ${questionID}`;
 }
 
@@ -35,4 +38,9 @@ const isCorrectAnswerOption = async (questionID, optionID) => {
   }
 }
 
-export {listAnswerOptions, addAnswerOption, deleteAnswerOption, rightAnswerExists, findAnswerOptionsByQuestionId, isCorrectAnswerOption};
+const findCorrectByQuestionID = async (questionID) => {
+  const rows = await sql`SELECT * FROM question_answer_options WHERE question_id = ${questionID} AND is_correct = true`;
+  return rows;
+}
+
+export {listAnswerOptions, addAnswerOption, deleteAnswerOption, rightAnswerExists, findAnswerOptionsByQuestionId, isCorrectAnswerOption, findCorrectByQuestionID};

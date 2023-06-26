@@ -17,13 +17,12 @@ const addAnswerOption = async ({ request, params, response, render, user}) => {
   const topicFromDatabase = await topicService.findTopicById(Number(topicID));
   const questionFromDatabase = await questionService.findQuestionById(Number(questionID));
 
-  //TODO: checkbox should be populated?
-
   const data = {
     topic: topicFromDatabase[0],
     question: questionFromDatabase[0],
     answerOptions: await answerOptionService.listAnswerOptions(questionID),
-    answerOption: bodyParams.get("option_text")
+    answerOption: bodyParams.get("option_text"),
+    user: user
   }
 
   const [passes, errors] = await validasaur.validate(data, answerOptionValidationRules);
@@ -36,9 +35,13 @@ const addAnswerOption = async ({ request, params, response, render, user}) => {
 
   if (correct && rightAnswerExists) { //if user tries to add correct answer, but it exists already
     data.rightAnswerError = "Correct answer exists already";
+    data.is_correct = "on";
     render("question.eta", data);
   } else if (!passes) {
     data.validationErrors = errors;
+    if (correct) {
+      data.is_correct = "on";
+    }
     render("question.eta", data);
   } else {
     await answerOptionService.addAnswerOption(questionID, data.answerOption, correct);
@@ -46,7 +49,7 @@ const addAnswerOption = async ({ request, params, response, render, user}) => {
   }
 }
 
-const showQuestionPage = async ({ params, render}) => {
+const showQuestionPage = async ({ params, render, user}) => {
   const topicID = params.id;
   const questionID = params.qId;
 
@@ -57,6 +60,7 @@ const showQuestionPage = async ({ params, render}) => {
     topic: topicFromDatabase[0],
     question: questionFromDatabase[0],
     answerOptions: await answerOptionService.listAnswerOptions(questionID),
+    user: user
   }
   render("question.eta", data);
 }

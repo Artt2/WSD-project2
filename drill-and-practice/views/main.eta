@@ -9,3 +9,7 @@
 <a href="/auth/register">Register</a>
 
 <h2>Statistics</h2>
+
+<p>Total number of topics: <%= it.topics.length %></p>
+<p>Total number of questions: <%= it.questions.length %></p>
+<p>Total number of question answers: <%= it.answers.length %></p>

@@ -32,6 +32,18 @@ const randomQuestion = async () => {
   }
 }
 
+const randomQuestionByTopic = async (topicID) => {
+  const rows = await sql`SELECT * from questions WHERE topic_id = ${topicID}`;
+  if (rows.length !== 0) {
+    //random int between 0 and length - 1
+    const randomIndex = Math.floor(Math.random() * rows.length); 
+    
+    return rows[randomIndex];
+  } else {
+    return {};
+  }
+}
+
 const questionExists = async (questionID) => {
   const rows = await sql`SELECT * FROM questions WHERE id = ${questionID}`;
   if (rows.length === 0) {
@@ -41,4 +53,8 @@ const questionExists = async (questionID) => {
   }
 }
 
-export {addQuestion, listQuestions, findQuestionById, deleteQuestion, randomQuestion, questionExists};
+const listAllQuestions = async () => {
+  return await sql`SELECT * FROM questions`;
+}
+
+export {addQuestion, listQuestions, findQuestionById, deleteQuestion, randomQuestion, randomQuestionByTopic, questionExists, listAllQuestions};

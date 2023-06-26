@@ -15,9 +15,10 @@ const addQuestion = async ({ request, params, response, render, user}) => {
   const topicFromDatabase = await topicService.findTopicById(Number(topicID));
 
   const data = {
-    question: bodyParams.get("question"),
+    question: bodyParams.get("question_text"),
     topic: topicFromDatabase[0],
     questions: await questionService.listQuestions(topicID),
+    user: user
   }
 
   const [passes, errors] = await validasaur.validate(data, questionValidationRules);
@@ -31,7 +32,7 @@ const addQuestion = async ({ request, params, response, render, user}) => {
   }
 }
 
-const showQuestionsPage = async ({ params, render}) => {
+const showQuestionsPage = async ({ params, render, user}) => {
   const topicID = params.id;
 
   const topicFromDatabase = await topicService.findTopicById(Number(topicID));
@@ -39,6 +40,7 @@ const showQuestionsPage = async ({ params, render}) => {
   const data = {
     topic: topicFromDatabase[0],
     questions: await questionService.listQuestions(topicID),
+    user: user
   }
 
   render("questions.eta", data);

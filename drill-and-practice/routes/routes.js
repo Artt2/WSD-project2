@@ -5,6 +5,7 @@ import * as loginController from "./controllers/loginController.js";
 import * as topicController from "./controllers/topicController.js";
 import * as questionsController from "./controllers/questionscontroller.js";
 import * as questionController from "./controllers/questionController.js";
+import * as quizController from "./controllers/quizController.js";
 
 import * as questionApi from "./apis/questionApi.js";
 
@@ -33,5 +34,12 @@ router.post("/topics/:id/questions/:qId/delete", questionController.deleteQuesti
 
 router.get("/api/questions/random", questionApi.randomQuestion);
 router.post("/api/questions/answer", questionApi.respondWithAnswer);
+
+router.get("/quiz", quizController.showQuizPage);
+router.get("/quiz/:tId", quizController.findQuestion);
+router.get("/quiz/:tId/questions/:qId", quizController.showQuestion);
+router.post("/quiz/:tId/questions/:qId/options/:oId", quizController.checkAnswer);
+router.get("/quiz/:tId/questions/:qId/correct", quizController.showCorrect);
+router.get("/quiz/:tId/questions/:qId/incorrect", quizController.showIncorrect);
 
 export { router };

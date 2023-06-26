@@ -14,7 +14,6 @@ const listTopics = async () => {
   answer options related to questions on the topic, 
   and the answers given by users to those questions."
 */
-//TODO: CHECK THAT THIS WORKS FOR ALL DELETIONS
 const deleteTopic = async (topicID) => {
 
   await sql`

@@ -18,7 +18,6 @@ const addTopic = async ({ request, response, render, user }) => {
   const [passes, errors] = await validasaur.validate(data, topicValidationRules); //validate
 
   if (!passes) {
-    console.log(errors)
     data.validationErrors = errors; //set validation errors to .eta
     render("topics.eta", data); //render again with errors
   } else {

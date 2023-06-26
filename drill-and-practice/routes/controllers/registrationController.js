@@ -18,8 +18,6 @@ const registerUser = async ({request, response, render}) => {
   // check validity of data
   const [passes, errors] = await validasaur.validate(userData, userValidationRules)
 
-  //TODO: CHECK THAT CANT ADD SAME EMAIL
-
   const userFromDatabase = await userService.findUserByEmail(userData.email)  //try to find a user with given email
   
   if (userFromDatabase.length === 1) {  //if user already exists
@@ -27,7 +25,6 @@ const registerUser = async ({request, response, render}) => {
     render("registration.eta", userData)
   }
   else if (!passes) { //validation errors
-    console.log(errors);
     userData.validationErrors = errors;
     render("registration.eta", userData)  //errors shown on page
   } else {

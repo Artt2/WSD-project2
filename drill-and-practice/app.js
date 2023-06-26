@@ -6,6 +6,7 @@ import { serveStaticMiddleware } from "./middlewares/serveStaticMiddleware.js";
 import { userMiddleware } from "./middlewares/userMiddleware.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import { router } from "./routes/routes.js";
+import { oakCors } from "./deps.js";
 
 const app = new Application();
 app.use(Session.initMiddleware());
@@ -16,5 +17,7 @@ app.use(userMiddleware);
 app.use(serveStaticMiddleware);
 app.use(renderMiddleware);
 app.use(router.routes());
+
+app.use(oakCors);
 
 export { app };
