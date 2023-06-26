@@ -33,7 +33,7 @@ Database can be accessed in separate terminal with "docker exec -it [container_n
 
 or
 
-Accessed via https://wsd-project1onlinedeployment.onrender.com/ (might take a bit for Render to start the server).
+Accessed via https://wsd-project2onlinedeployment.onrender.com/ (might take a bit for Render to start the server).
 
 ##Tests
 

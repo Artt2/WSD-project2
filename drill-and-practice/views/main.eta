@@ -2,7 +2,10 @@
 
 <h1>Quiz app</h1>
 
-<p>This is a brief description of the app.</p>
+<p>This is a web application designed for repeated practice of learned content.</p>
+<p>It provides a list of topics and allows users to create multiple-choice questions within those topics.</p>
+<p>Registered and authenticated users can answer the questions, add new ones or see questions provided by others.</p>
+<p>The application also displays basic statistics.</p>
 
 <a href="/auth/login">Login</a>
 <br/>
