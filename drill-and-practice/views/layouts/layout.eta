@@ -28,7 +28,10 @@
         </div>
     </nav>
   <% } %>
-
+  <br/>
+  <br/>
+  <br/>
+  <br/>
   <div class="paper container">
     <%~ it.body %>
   </div>
